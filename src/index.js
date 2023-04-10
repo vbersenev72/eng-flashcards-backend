@@ -11,10 +11,14 @@ const dataBase = 'mongodb+srv://user:user@dbengflashcards.rtlggrj.mongodb.net/te
 app.use(express.json()) // обязательная штучка для обработки json
 
 app.post('/post', async (req, res) => {
-    const {author, title, content} = req.body // из тела запроса получаем данные в соответствии со схемой Post
-    const post = await Post.create({author, title, content}) // создаем пост в базе данных
+    try {
+        const {author, title, content} = req.body // из тела запроса получаем данные в соответствии со схемой Post
+        const post = await Post.create({author, title, content}) // создаем пост в базе данных
 
-    res.status(200).json(post) // возвращает тот же пост
+        res.status(200).json(post) // возвращает тот же пост
+    } catch (error) {
+        res.status(500).json(error)
+    }
 })
 
 
